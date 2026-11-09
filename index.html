@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c766e">
+  <title>AI Health Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-icon">✚</span><span>AI Health <b>Companion</b></span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    <nav id="nav">
+      <a href="#home">Home</a><a href="#assistant">AI Assistant</a>
+      <a href="#hospitals">Hospitals</a><a href="#rooms">Room requests</a>
+      <a href="#emergency">Emergency</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="eyebrow">CARE • SUPPORT • INFORMATION</span>
+        <h1>Your health,<br><em>within reach.</em></h1>
+        <p>A simple place to explore health information, find hospitals and prepare care requests.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#hospitals">Explore hospitals</a>
+          <a class="btn light" href="#assistant">Ask the assistant</a>
+        </div>
+        <p class="notice">Demo project: requests shown here are saved only in this browser. They are not sent to hospitals or emergency services.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="pulse-ring"><div class="cross">✚</div></div>
+        <div class="floating-card"><span>♥</span><div><b>Care starts here</b><small>Information and support</small></div></div>
+      </div>
+    </section>
+
+    <section class="quick-grid" aria-label="Quick links">
+      <a class="quick-card" href="#assistant"><span>✦</span><b>AI health assistant</b><small>Explore general health information</small></a>
+      <a class="quick-card" href="#hospitals"><span>⌖</span><b>Find hospitals</b><small>Search by city or area</small></a>
+      <a class="quick-card" href="#rooms"><span>▣</span><b>Room requests</b><small>Prepare a room enquiry</small></a>
+      <a class="quick-card" href="#emergency"><span>＋</span><b>Urgent help</b><small>See what to do in an emergency</small></a>
+    </section>
+
+    <section class="section two-col" id="assistant">
+      <div>
+        <span class="eyebrow">YOUR INFORMATION COMPANION</span>
+        <h2>Ask a health question</h2>
+        <p class="muted">Get basic educational information. This demo does not diagnose conditions or replace a qualified healthcare professional.</p>
+        <div class="chat-box">
+          <div class="chat-heading"><span class="online-dot"></span> Health information assistant <small>Demo</small></div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="bubble bot">Hello! I can share general health information and help you think of questions to ask a healthcare professional. What would you like to know?</div>
+          </div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" placeholder="Type a general health question..." maxlength="400" required>
+            <button class="btn primary" type="submit">Send ↑</button>
+          </form>
+        </div>
+      </div>
+      <aside class="info-panel">
+        <div class="panel-icon">ⓘ</div><h3>Health comes first</h3>
+        <p>If someone may be seriously ill or in immediate danger, contact local emergency services or go to the nearest emergency department. Do not wait for an online response.</p>
+        <hr><b>Helpful reminder</b><p>Share symptoms and concerns with a qualified doctor or nurse who can assess the person directly.</p>
+      </aside>
+    </section>
+
+    <section class="section tinted" id="hospitals">
+      <div class="section-head"><div><span class="eyebrow">CARE NEAR YOU</span><h2>Explore hospitals</h2><p class="muted">Search a hospital directory or add a hospital you know.</p></div></div>
+      <div class="search-row"><input id="hospitalSearch" placeholder="Search by hospital or city..."><button class="btn primary" id="searchHospitals">Search</button></div>
+      <div class="hospital-grid" id="hospitalList">
+        <article class="hospital-card"><div class="hospital-symbol">✚</div><h3>Example General Hospital</h3><p>Sample listing · Add your city to search</p><span class="tag">Demo listing</span></article>
+        <article class="hospital-card"><div class="hospital-symbol">✚</div><h3>Community Care Centre</h3><p>Sample listing · Contact details not verified</p><span class="tag">Demo listing</span></article>
+      </div>
+      <p class="small-note">This starter version does not connect to a live hospital directory. Verify hospital names, services and contact details independently before visiting.</p>
+    </section>
+
+    <section class="section two-col" id="rooms">
+      <div><span class="eyebrow">PLAN CARE</span><h2>Hospital room enquiry</h2><p class="muted">Prepare a request with the details a hospital may need. This form does not reserve a room.</p>
+        <form class="form-card" id="roomForm">
+          <label>Patient or contact name<input name="name" required placeholder="Enter name"></label>
+          <label>Hospital name<input name="hospital" required placeholder="Hospital you want to contact"></label>
+          <div class="form-row"><label>Room type<select name="room"><option>General ward</option><option>Private room</option><option>Semi-private room</option><option>ICU enquiry</option><option>Not sure</option></select></label>
+          <label>Preferred date<input name="date" type="date"></label></div>
+          <label>Facilities needed<textarea name="facilities" rows="3" placeholder="For example: accessible bathroom, attendant bed, oxygen support (if prescribed)"></textarea></label>
+          <label>Contact number<input name="phone" type="tel" placeholder="Phone number"></label>
+          <button class="btn primary" type="submit">Save room enquiry</button>
+          <p class="form-status" id="roomStatus" role="status"></p>
+        </form>
+      </div>
+      <aside class="soft-panel"><span class="big-symbol">▣</span><h3>Room facilities matter</h3><p>Ask the hospital directly about availability, costs, visiting rules, accessibility, attendant facilities and clinical equipment. Requirements depend on the patient's care plan.</p></aside>
+    </section>
+
+    <section class="section emergency-section" id="emergency">
+      <div><span class="eyebrow">URGENT SUPPORT</span><h2>Need urgent medical help?</h2><p>If a person is unconscious, struggling to breathe, seriously injured or in immediate danger, contact emergency services now. In India, call <b>112</b>.</p><p class="small-note light-note">This website cannot dispatch an ambulance, alert a hospital or replace emergency services.</p></div>
+      <form id="helpForm" class="emergency-card">
+        <h3>Prepare a help request</h3>
+        <label>Your name<input name="name" required placeholder="Name"></label>
+        <label>City / area<input name="area" required placeholder="City or area"></label>
+        <label>What help is needed?<textarea name="details" rows="3" required placeholder="Briefly describe the help needed"></textarea></label>
+        <button class="btn danger" type="submit">Save request on this device</button>
+        <p id="helpStatus" class="form-status" role="status"></p>
+      </form>
+    </section>
+
+    <section class="section" id="dashboard">
+      <span class="eyebrow">YOUR ACTIVITY</span><h2>My requests</h2><p class="muted">Requests saved in this browser on this device.</p>
+      <div id="requestList" class="request-list"><p class="empty-state">No requests saved yet.</p></div>
+      <button id="clearRequests" class="text-btn">Clear saved demo requests</button>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#"><span class="brand-icon">✚</span> AI Health Companion</a><p>Educational demo only · Not a medical device or emergency service.</p><small>© 2026 AI Health Companion</small></footer>
+  <script src="script.js"></script>
+</body>
+</html>
