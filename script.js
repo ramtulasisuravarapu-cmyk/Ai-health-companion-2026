@@ -68,10 +68,56 @@ if ($("nav")) {
 }
 
 if ($("chatForm")) {
-  $("chatForm").addEventListener("submit", e => {
-    e.preventDefault();
+  
+const WORKER_URL = "https://aihealth.ramtulasisuravarapu.workers.dev";
 
-    const input = $("chatInput");
+$("chatForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const input = $("chatInput");
+  const messages = $("chatMessages");
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  const userBubble = document.createElement("div");
+  userBubble.className = "bubble user";
+  userBubble.textContent = question;
+  messages.append(userBubble);
+
+  input.value = "";
+
+  const answer = document.createElement("div");
+  answer.className = "bubble bot";
+  answer.textContent = "Thinking...";
+  messages.append(answer);
+
+  const button = e.currentTarget.querySelector("button");
+  button.disabled = true;
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: question })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    answer.textContent = data.reply || "No response received.";
+  } catch (error) {
+    answer.textContent = "Unable to connect. Please try again.";
+  } finally {
+    button.disabled = false;
+    messages.scrollTop = messages.scrollHeight;
+  }
+});
+  
+ const input = $("chatInput");
     const question = input.value.trim();
     if (!question) return;
 
@@ -85,24 +131,7 @@ if ($("chatForm")) {
     const answer = document.createElement("div");
     answer.className = "bubble bot";
     answer.textContent =
-      "Thanks for your question. This demo cannot provide medical assessments or personalized treatment advice. Please consult a qualified healthcare professional. For emergencies, contact local emergency services.";
-
-    messages.append(answer);
-    input.value = "";
-    messages.scrollTop = messages.scrollHeight;
-  });
-}
-
-if ($("roomForm")) {
-  $("roomForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(
-      new FormData(e.currentTarget).entries()
-    );
-
-    saveRequest("Room enquiry", data);
-
+      "Thanks for your question. This demo cannot provide medical assessments or personalized treatment advice. Please consult a qualified healthcare professional. For emergencies, contact local emergency service
     $("roomStatus").textContent =
       "Saved on this device only. Contact the hospital directly.";
 
