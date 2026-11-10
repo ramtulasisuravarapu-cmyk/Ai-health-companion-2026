@@ -4,8 +4,6 @@ const $ = (id) => document.getElementById(id);
 const storageKey = "ahc_demo_requests_v1";
 const WORKER_URL = "https://aihealth.ramtulasisuravarapu.workers.dev";
 
-// SAVED REQUESTS
-
 function getRequests() {
   try {
     return JSON.parse(localStorage.getItem(storageKey) || "[]");
@@ -59,7 +57,7 @@ function renderRequests() {
   `).join("");
 }
 
-// MOBILE NAVIGATION
+// Navigation
 
 if ($("menuBtn")) {
   $("menuBtn").addEventListener("click", () => {
@@ -75,7 +73,7 @@ if ($("nav")) {
   });
 }
 
-// AI HEALTH ASSISTANT
+// AI Assistant
 
 if ($("chatForm")) {
   $("chatForm").addEventListener("submit", async (e) => {
@@ -123,7 +121,7 @@ if ($("chatForm")) {
         data.reply || "No response received.";
 
     } catch (error) {
-      console.error("AI error:", error);
+      console.error(error);
       answer.textContent =
         "Unable to connect to AI. Please try again.";
     } finally {
@@ -133,7 +131,7 @@ if ($("chatForm")) {
   });
 }
 
-// HOSPITAL ROOM REQUESTS
+// Room requests
 
 if ($("roomForm")) {
   $("roomForm").addEventListener("submit", e => {
@@ -147,14 +145,14 @@ if ($("roomForm")) {
 
     if ($("roomStatus")) {
       $("roomStatus").textContent =
-        "Request saved on this device only. Contact the hospital directly to arrange a room.";
+        "Saved on this device only. Contact the hospital directly.";
     }
 
     e.currentTarget.reset();
   });
 }
 
-// EMERGENCY / HELP REQUESTS
+// Emergency assistance requests
 
 if ($("helpForm")) {
   $("helpForm").addEventListener("submit", e => {
@@ -168,14 +166,14 @@ if ($("helpForm")) {
 
     if ($("helpStatus")) {
       $("helpStatus").textContent =
-        "Saved on this device only. No hospital or emergency service was contacted. For urgent help, contact local emergency services.";
+        "Saved on this device only. No emergency service was contacted.";
     }
 
     e.currentTarget.reset();
   });
 }
 
-// CLEAR REQUESTS
+// Clear requests
 
 if ($("clearRequests")) {
   $("clearRequests").addEventListener("click", () => {
@@ -186,7 +184,7 @@ if ($("clearRequests")) {
   });
 }
 
-// HOSPITAL SEARCH
+// Hospital search
 
 if ($("searchHospitals")) {
   $("searchHospitals").addEventListener("click", () => {
@@ -203,6 +201,5 @@ if ($("searchHospitals")) {
 
 renderRequests();
         
-
-
   
+      
