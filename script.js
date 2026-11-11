@@ -122,8 +122,7 @@ if ($("chatForm")) {
 
     } catch (error) {
       console.error(error);
-      answer.textContent =
-        "Unable to connect to AI. Please try again.";
+      answer.textContent = "AI error: " + error.message;
     } finally {
       if (button) button.disabled = false;
       messages.scrollTop = messages.scrollHeight;
