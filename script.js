@@ -75,8 +75,35 @@ if ($("nav")) {
 
 // AI Assistant
 
+   
+function getDemoReply(question) {
+  const q = question.toLowerCase();
+
+  if (q.includes("fever")) {
+    return "Demo health information: Fever can have many causes. Rest, drink enough fluids, and tell a parent or trusted adult. Seek medical advice if symptoms are severe or persistent.";
+  }
+
+  if (q.includes("headache")) {
+    return "Demo health information: Headaches can have different causes. Rest, drink water, and tell a trusted adult if it continues or becomes severe.";
+  }
+
+  if (q.includes("cough") || q.includes("cold")) {
+    return "Demo health information: Coughs and colds are common. Rest and drink fluids. Ask a healthcare professional if symptoms worsen or you have difficulty breathing.";
+  }
+
+  if (q.includes("stomach") || q.includes("belly")) {
+    return "Demo health information: Stomach discomfort can have many causes. Tell a trusted adult, especially if the pain is severe or persistent.";
+  }
+
+  if (q.includes("hello") || q.includes("hi")) {
+    return "Hello! Welcome to AI Health Companion. I can share general health information and help you understand common health topics.";
+  }
+
+  return "Thank you for your question! I am currently in Demo Mode. I can share basic health information, but I cannot diagnose conditions or recommend treatment. Please consult a healthcare professional for personal medical advice.";
+}
+
 if ($("chatForm")) {
-  $("chatForm").addEventListener("submit", async (e) => {
+  $("chatForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const input = $("chatInput");
@@ -90,116 +117,12 @@ if ($("chatForm")) {
     userBubble.textContent = question;
     messages.append(userBubble);
 
-    input.value = "";
-
     const answer = document.createElement("div");
     answer.className = "bubble bot";
-    answer.textContent = "Thinking...";
+    answer.textContent = "Demo Mode: " + getDemoReply(question);
     messages.append(answer);
 
-    const button = e.currentTarget.querySelector("button");
-    if (button) button.disabled = true;
-
-    try {
-      const response = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: question
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "AI request failed");
-      }
-
-      answer.textContent =
-        data.reply || "No response received.";
-
-    } catch (error) {
-      console.error(error);
-      answer.textContent = "AI error: " + error.message;
-    } finally {
-      if (button) button.disabled = false;
-      messages.scrollTop = messages.scrollHeight;
-    }
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
   });
 }
-
-// Room requests
-
-if ($("roomForm")) {
-  $("roomForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(
-      new FormData(e.currentTarget).entries()
-    );
-
-    saveRequest("Hospital room request", data);
-
-    if ($("roomStatus")) {
-      $("roomStatus").textContent =
-        "Saved on this device only. Contact the hospital directly.";
-    }
-
-    e.currentTarget.reset();
-  });
-}
-
-// Emergency assistance requests
-
-if ($("helpForm")) {
-  $("helpForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(
-      new FormData(e.currentTarget).entries()
-    );
-
-    saveRequest("Help request", data);
-
-    if ($("helpStatus")) {
-      $("helpStatus").textContent =
-        "Saved on this device only. No emergency service was contacted.";
-    }
-
-    e.currentTarget.reset();
-  });
-}
-
-// Clear requests
-
-if ($("clearRequests")) {
-  $("clearRequests").addEventListener("click", () => {
-    if (confirm("Clear all saved demo requests?")) {
-      localStorage.removeItem(storageKey);
-      renderRequests();
-    }
-  });
-}
-
-// Hospital search
-
-if ($("searchHospitals")) {
-  $("searchHospitals").addEventListener("click", () => {
-    const q = $("hospitalSearch").value.trim();
-
-    $("hospitalList").innerHTML = `
-      <article class="hospital-card">
-        <h3>Search for "${escapeHtml(q || "a hospital")}"</h3>
-        <p>This demo does not have a live hospital directory. Verify hospitals through their official websites.</p>
-      </article>
-    `;
-  });
-}
-
-renderRequests();
-                                 
-
-
-       
